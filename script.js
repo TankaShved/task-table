@@ -25,16 +25,16 @@ function user_get(value, string) {
   cell.append(value)
 }
 
-function button_delete(string) {
-  const but_del = document.createElement('input')
-  but_del.type = 'button'
-  but_del.value = 'delete'
-  but_del.onclick = function () {
-    //  let bobr = await fetch(url, {method: 'POST', body: JSON.stringify( ? )});
-    alert(3456)
-  }
-  string.append(but_del)
-}
+// function button_delete(string) {
+//   const but_del = document.createElement('input')
+//   but_del.type = 'button'
+//   but_del.value = 'delete'
+//   but_del.onclick = function () {
+//     //  let bobr = await fetch(url, {method: 'POST', body: JSON.stringify( ? )});
+//     alert(3456)
+//   }
+//   string.append(but_del)
+// }
 
 // function user_post(){
 //   const user_add = [
@@ -58,20 +58,32 @@ async function get() {
     user_get(data[i].user_age, string);
     user_get(data[i].user_name, string);
     user_get(data[i].user_sex, string);
-    button_delete(string);
+    // button_delete(string);
+
+    const but_del = document.createElement('input')
+    but_del.type = 'button'
+    but_del.value = 'delete'
+    but_del.onclick = function () {
+      async function delUser() {
+        const noga = data[i].id
+        await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + noga, { method: 'DELETE' })
+        table_body.innerHTML = ""
+        get()
+      }
+      delUser()
+
+    }
+    string.append(but_del)
+
   }
   console.log(data)
 
 
   //for testing
 
-  
-  async function g(){
-    const exampleId = "f9842d00-e37d-44fb-a44b-0b78d87c8a51"
-    const dsf = await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + exampleId,
-    { method: 'DELETE' })
-  }
-  g()
+  // const exampleId = "3e28ea39-1b0e-4e76-82b9-7985c5108e20"
+  // const dsf = await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + exampleId,
+  //   { method: 'DELETE' })
 
 }
 get()
