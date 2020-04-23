@@ -19,6 +19,11 @@
 // }
 // f()
 
+function column(value, string) {
+  let cell = document.createElement('td')
+  string.append(cell)
+  cell.append(value)
+}
 
 async function get() {
   const url = 'https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users'
@@ -29,20 +34,12 @@ async function get() {
   for (let i = 0; i < data.length; i++) {
     let string = document.createElement('tr')
     table_body.append(string);
-    
-    let column_age = document.createElement('td')
-    string.append(column_age)
-    column_age.append(data[i].user_age)
 
-    let column_name = document.createElement('td')
-    string.append(column_name)
-    column_name.append(data[i].user_name)
-
-    let column_sex = document.createElement('td')
-    string.append(column_sex)
-    column_sex.append(data[i].user_sex)
+    column(data[i].user_age, string);
+    column(data[i].user_name, string);
+    column(data[i].user_sex, string);
   }
-  console.log(data)
+  //console.log(data)
 }
 get()
 
