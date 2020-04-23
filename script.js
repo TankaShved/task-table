@@ -25,19 +25,28 @@ function column(value, string) {
   cell.append(value)
 }
 
+function button_del(string){
+  const button_del = document.createElement('input')
+  button_del.type = 'button'
+  button_del.value = 'delete'
+  string.append(button_del)
+}
+
 async function get() {
   const url = 'https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users'
   const response = await fetch(url);
   const data = await response.json();
-  let table_body = document.querySelector('tbody')
+
+  const table_body = document.querySelector('tbody')
 
   for (let i = 0; i < data.length; i++) {
-    let string = document.createElement('tr')
+    const string = document.createElement('tr')
     table_body.append(string);
 
     column(data[i].user_age, string);
     column(data[i].user_name, string);
     column(data[i].user_sex, string);
+    button_del(string);
   }
   //console.log(data)
 }
