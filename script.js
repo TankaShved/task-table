@@ -1,28 +1,11 @@
-// //2 vers. fetch.
-// fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users')
-//   .then(response => response.json())
-//   .then(users => alert(users));
-
-
-function user_get(value, string) {
+//create cell in string 
+function user_cell(value, string) {
   const cell = document.createElement('td')
   string.append(cell)
   cell.append(value)
 }
 
-// function button_delete(string) {
-//   const but_del = document.createElement('input')
-//   but_del.type = 'button'
-//   but_del.value = 'delete'
-//   but_del.onclick = function () {
-//     //  let bobr = await fetch(url, {method: 'POST', body: JSON.stringify( ? )});
-//     alert(3456)
-//   }
-//   string.append(but_del)
-// }
-
-// function user_post(){}
-
+//get
 async function get() {
   const url = 'https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users'
   const response = await fetch(url);
@@ -34,24 +17,31 @@ async function get() {
     const string = document.createElement('tr')
     table_body.append(string);
 
-    user_get(data[i].user_age, string);
-    user_get(data[i].user_name, string);
-    user_get(data[i].user_sex, string);
-    // button_delete(string);
-    const but_del = document.createElement('input')
-    but_del.type = 'button'
-    but_del.value = 'delete'
-    but_del.onclick = function () {
+    user_cell(data[i].user_age, string);
+    user_cell(data[i].user_name, string);
+    user_cell(data[i].user_sex, string);
+
+    //button delete
+    const button_delete = document.createElement('input')
+    button_delete.type = 'button'
+    button_delete.value = 'delete'
+
+    button_delete.onclick = function () {
       async function user_delete() {
-        const a = data[i].id
-        await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + a,
+        const a = data[i].id // users id
+        let response = await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + a,
           { method: 'DELETE' })
-        table_body.remove()
+        if (response.ok) {
+          alert(await response.text())
+        } else {
+          alert("Ошибка HTTP: " + response.status);
+        }
+        table_body.innerHTML = ""
         get()
       }
       user_delete()
     }
-    string.append(but_del)
+    string.append(button_delete)
   }
 
   // ADD
@@ -68,21 +58,18 @@ async function get() {
     }
 
     async function user_add() {
-      let response = await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
+      await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
       });
-
-      let result = await response.json();
-      console.log(result);
+      table_body.innerHTML = ""
+      get()
     }
     user_add()
-    string.append(but_add)
   }
-  //console.log(data)
 }
 get()
 
