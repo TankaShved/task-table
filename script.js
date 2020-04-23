@@ -30,15 +30,13 @@ async function get() {
 
   const table_body = document.querySelector('tbody')
 
-  const string = document.createElement('tr')
-  table_body.append(string);
-
   for (let i = 0; i < data.length; i++) {
+    const string = document.createElement('tr')
+    table_body.append(string);
 
     user_get(data[i].user_age, string);
     user_get(data[i].user_name, string);
     user_get(data[i].user_sex, string);
-
     // button_delete(string);
     const but_del = document.createElement('input')
     but_del.type = 'button'
@@ -66,14 +64,14 @@ async function get() {
     let user = {
       name: val_name,
       sex: val_sex,
-      age: val_age,
+      age: Number.parseInt(val_age),
     }
 
     async function user_add() {
       let response = await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
       });
@@ -82,7 +80,7 @@ async function get() {
       console.log(result);
     }
     user_add()
-    
+    string.append(but_add)
   }
   //console.log(data)
 }
