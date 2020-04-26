@@ -53,10 +53,13 @@ async function get() {
     button_edit.onclick = function () {  //onclick button "edit"
       const new_age = document.createElement('input')  // create input
       new_age.type = 'text'
+      new_age.placeholder = 'Введите значение'
       const new_name = document.createElement('input')  // create input
       new_name.type = 'text'
+      new_name.placeholder = 'Введите значение'
       const new_sex = document.createElement('input')  // create input
       new_sex.type = 'text'
+      new_sex.placeholder = 'Введите значение'
 
       cell_age.innerHTML = ''  // clear cell
       cell_age.append(new_age)  // add input
@@ -104,9 +107,13 @@ async function get() {
   // ADD
   const but_add = document.querySelector('.add_user')
   but_add.onclick = function () {
-    const val_age = document.querySelector('.user_age').value
-    const val_name = document.querySelector('.user_name').value
-    const val_sex = document.querySelector('.user_sex').value
+    const user_age = document.querySelector('.user_age')
+    const user_name = document.querySelector('.user_name') 
+    const user_sex = document.querySelector('.user_sex')
+
+    const val_age = user_age.value
+    const val_name = user_name.value
+    const val_sex = user_sex.value
 
     let user = {
       name: val_name,
@@ -128,6 +135,9 @@ async function get() {
           },
           body: JSON.stringify(user)
         });
+        user_age.value = ""
+        user_name.value = ""
+        user_sex.value = ""
         table_body.innerHTML = ""
         get()
       }
