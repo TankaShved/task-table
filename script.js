@@ -77,16 +77,23 @@ async function get() {
           age: edit_age
         }
         async function user_edit() {
-          await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + a, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-          })
-          button_edit.value = 'edit'
-          table_body.innerHTML = ""
-          get()
+          let b = Number.isNaN(Number.parseInt(user.age))
+          if (user.sex != 'M' && user.sex != 'F') {
+            alert('пол должен содержать M или F')
+          } else if (b === true || Number.parseInt(user.age) < 0) {
+            alert('возраст должен быть положительным числом')
+          } else {
+            await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + a, {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(user)
+            })
+            button_edit.value = 'edit'
+            table_body.innerHTML = ""
+            get()
+          }
         }
         user_edit()
       }
@@ -111,8 +118,8 @@ async function get() {
       let b = Number.isNaN(Number.parseInt(user.age))
       if (user.sex != 'M' && user.sex != 'F') {
         alert('пол должен содержать M или F')
-      } else if (b === true) {
-        alert('возраст должен быть числом')
+      } else if (b === true || Number.parseInt(user.age) < 0) {
+        alert('возраст должен быть положительным числом')
       } else {
         await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
           method: 'POST',
