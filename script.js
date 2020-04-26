@@ -31,7 +31,6 @@ async function get() {
 
     button_delete.onclick = function () {
       async function user_delete() {
-
         let response = await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + a,
           { method: 'DELETE' })
         if (response.ok) {
@@ -109,15 +108,22 @@ async function get() {
     }
 
     async function user_add() {
-      await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      });
-      table_body.innerHTML = ""
-      get()
+      let b = Number.isNaN(Number.parseInt(user.age))
+      if (user.sex != 'M' && user.sex != 'F') {
+        alert('пол должен содержать M или F')
+      } else if (b === true) {
+        alert('возраст должен быть числом')
+      } else {
+        await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(user)
+        });
+        table_body.innerHTML = ""
+        get()
+      }
     }
     user_add()
   }
