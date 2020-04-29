@@ -41,6 +41,17 @@ class App extends React.Component {
     }
     lopsf()
   }
+  nash_userUpdate(id, user) {
+
+    const tapok = async () => {
+      await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + id,
+        { method: 'PATCH' ,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)})
+        this.nash_usersGet()
+    }
+    tapok()
+  }
 
   render() {
     return (<div style={{ maxWidth: "100%" }}>
@@ -49,9 +60,21 @@ class App extends React.Component {
         data={this.state.lico}
         editable={
           {
-            onRowDelete: oldData => new Promise((resolve, reject) => {
+            onRowUpdate: (newData) => new Promise((resolve) => {
               setTimeout(() => {
-                // console.log(oldData.id)
+                console.log(newData)
+                let user = {
+                  age: newData.user_age,
+                  name: newData.user_name,
+                  sex: newData.user_sex
+                }
+                this.nash_userUpdate(newData.id, user)
+                resolve();
+              }, 10);
+            }),
+            onRowDelete: oldData => new Promise((resolve) => {
+              setTimeout(() => {
+                console.log(oldData.id)
                 this.nash_usersDel(oldData.id)
                 resolve();
               }, 10);
