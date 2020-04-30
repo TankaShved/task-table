@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import MaterialTable from "material-table";
 
 const noga = [
   { title: "Age", field: "user_age", type: "numeric" },
   { title: "Name", field: "user_name" },
-  { title: "Sex", field: "user_sex" }
+  { title: "Sex", field: "user_sex", lookup: { 'M': "M", 'F': "F" } }
 ]
 
 class App extends React.Component {
@@ -77,26 +76,38 @@ class App extends React.Component {
         data={this.state.lico}
         editable={
           {
-            onRowAdd: newData => new Promise((resolve) => {
+            onRowAdd: newData => new Promise((resolve, reject) => {
               setTimeout(() => {
-                let user = {
-                  age: newData.user_age,
-                  name: newData.user_name,
-                  sex: newData.user_sex
+                if (newData.user_age <= 0) {
+                  alert("Введите положительное число")
+                  reject()
                 }
-                this.nash_userAdd(user)
-                resolve();
+                else {
+                  let user = {
+                    age: newData.user_age,
+                    name: newData.user_name,
+                    sex: newData.user_sex
+                  }
+                  this.nash_userAdd(user)
+                  resolve()
+                }
               }, 10);
             }),
-            onRowUpdate: newData => new Promise((resolve) => {
+            onRowUpdate: newData => new Promise((resolve, reject) => {
               setTimeout(() => {
-                let user = {
-                  age: newData.user_age,
-                  name: newData.user_name,
-                  sex: newData.user_sex
+                if (newData.user_age <= 0) {
+                  alert("Введите положительное число")
+                  reject()
                 }
-                this.nash_userUpdate(newData.id, user)
-                resolve();
+                else {
+                  let user = {
+                    age: newData.user_age,
+                    name: newData.user_name,
+                    sex: newData.user_sex
+                  }
+                  this.nash_userUpdate(newData.id, user)
+                  resolve();
+                }
               }, 10);
             }),
             onRowDelete: oldData => new Promise((resolve) => {
