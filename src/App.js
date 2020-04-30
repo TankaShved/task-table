@@ -5,7 +5,7 @@ import MaterialTable from "material-table";
 const noga = [
   { title: "Age", field: "user_age", type: "numeric" },
   { title: "Name", field: "user_name" },
-  { title: "Sex", field: "user_sex", lookup: { 'M': "M", 'F': "F" } }
+  { title: "Sex", field: "user_sex", lookup: { 'M': "Man", 'F': "Woman" } }
 ]
 
 class App extends React.Component {
