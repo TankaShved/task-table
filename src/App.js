@@ -42,27 +42,54 @@ class App extends React.Component {
     lopsf()
   }
   nash_userUpdate(id, user) {
-
     const tapok = async () => {
       await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/' + id,
-        { method: 'PATCH' ,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)})
-        this.nash_usersGet()
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(user)
+        })
+      this.nash_usersGet()
     }
     tapok()
+  }
+  nash_userAdd(user) {
+    const lol = async () => {
+      await fetch('https://7r2d5vhfu8.execute-api.eu-west-2.amazonaws.com/dev/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      this.nash_usersGet()
+    }
+    lol()
   }
 
   render() {
     return (<div style={{ maxWidth: "100%" }}>
       <MaterialTable
+        options={{
+          sorting: true
+        }}
         columns={noga}
         data={this.state.lico}
         editable={
           {
-            onRowUpdate: (newData) => new Promise((resolve) => {
+            onRowAdd: newData => new Promise((resolve) => {
               setTimeout(() => {
-                console.log(newData)
+                let user = {
+                  age: newData.user_age,
+                  name: newData.user_name,
+                  sex: newData.user_sex
+                }
+                this.nash_userAdd(user)
+                resolve();
+              }, 10);
+            }),
+            onRowUpdate: newData => new Promise((resolve) => {
+              setTimeout(() => {
                 let user = {
                   age: newData.user_age,
                   name: newData.user_name,
@@ -74,7 +101,6 @@ class App extends React.Component {
             }),
             onRowDelete: oldData => new Promise((resolve) => {
               setTimeout(() => {
-                console.log(oldData.id)
                 this.nash_usersDel(oldData.id)
                 resolve();
               }, 10);
